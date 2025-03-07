@@ -19,6 +19,8 @@ contract TestFun {
         return 2 * x;
     }
 
+    
+
     // 函数：根据传入的选择器动态调用 square 或 double 函数
     function executeFunction(bytes4 selector, uint x) public returns (uint) {
         (bool success, bytes memory data) = address(this).call(abi.encodeWithSelector(selector, x));
@@ -37,6 +39,19 @@ contract TestFun {
         (bool success, bytes memory data) = address(this).call(abi.encodeWithSelector(storedSelector, x));
         require(success, "Function call failed");
         return abi.decode(data, (uint));
+    }
+
+     function getSelectorSquare() external pure returns (bytes4) {
+        return this.square.selector; // 返回函数square的选择器
+    }
+
+    function getSelectorDouble() external pure returns (bytes4) {
+        return this.double.selector; // 返回函数double的选择器
+    }
+    
+
+    function getStoredSelector() external returns (bytes4) {
+        return storedSelector; // 返回存储在成员变量中的函数选择器
     }
     
 }
